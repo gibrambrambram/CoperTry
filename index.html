@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Copernicus try</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./imagenes/logo rams.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/normalize.css">
+</head>
+<body>
+    <h1>Generar Token</h1>
+    <form id="tokenForm">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Generar Token</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('tokenForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Hacer una solicitud a la API para generar el token
+            const response = await fetch('https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=<username>" -d "password=<password>" -d "grant_type=password" -d "client_id=cdse-public"', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('result').innerText = `Token: ${data.token}`;
+            } else {
+                document.getElementById('result').innerText = 'Error al generar el token';
+            }
+        });
+    </script>
+    <header id="home" class="hero">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <h2 class="nav__title">Prediccion de Desastres Naturales.</h2>
+            </div>
+            <ul class="nav__link nav__link--menu">
+                <li class="nav__items"><a href="#home" class="nav__links">Inicio</a></li>
+                <li class="nav__items"><a href="#data" class="nav__links">Datos</a></li>
+                <li class="nav__items"><a href="#map" class="nav__links">Mapa</a></li>
+                <li class="nav__items"><a href="#info" class="nav__links">Información</a></li>
+            </ul>
+            <img src="./imagenes/cerrar.svg" alt="no pudo cargar la imagen bro" class="nav__close">
+            <div class="nav__menu">
+                <img src="./imagenes/menu.svg" alt="no pudo cargar la imagen bro" class="nav__img">
+            </div>
+        </nav>
+        <section class="hero__container container">
+            <h1 class="hero__title">Predicción de Desastres Naturales.</h1>
+            <p class="hero__paragraph">Utilizando datos de Copernicus para anticipar eventos naturales.</p>
+            <a href="#" class="cta">Comienza ahora</a>
+        </section>
+    </header>
+    <main>
+        <section class="container about">
+            <h2 class="subtitle">¿Que encontrarás en este sitio?</h2>
+            <p> blah blah bla FLRDSMDFR</p>
+            <div class="about__main">
+                <article class="about__icons">
+                    <img src="./imagenes/sushi.svg" class="about__icon">
+                    <h3 class="about__title">Factor de Riesgo</h3>
+                    <p class="about__paragraph"> jnfdhfdhfjd</p>
+                </article>
+
+                <article class="about__icons">
+                    <img src="./imagenes/mapa.svg" class="about__icon">
+                    <h3 class="about__title">Localización del Desastre</h3>
+                    <p class="about__paragraph"> bdhbhdb</p>
+                </article>
+
+                <article class="about__icons">
+                    <img src="./imagenes/mapa.svg" class="about__icon">
+                    <h3 class="about__title">Desastres</h3>
+                    <p class="about__paragraph"> bdhbhdb</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="knowledge">
+            <div class="knowledge__container container">
+                <div class="knowledge__texts">
+                    <h2 class="subtitle"> jjdhfhdf</h2>
+                    <p class="knowledge__paragraph">jhfushfghijdifjjdidjjdij dfushioaij udhiuhdhhdudh</p>
+                    <a href="#" class="cta"> Log in</a>
+                </div>
+    
+                <figure class="knowledge__picture">
+                    <img src="./imagenes/dos.jpeg" class="knowledge">
+                </figure>
+            </div>
+        </section>
+        
+        <section class="price container">
+            <h2 class="subtitle">Obten el plan perfecto </h2>
+
+            <div class="price__table">
+                <div class="price__element">
+                    <p class="price__name">Version Gratuita</p>
+                    <h3 class="price__price">Free</h3>
+
+                    <div class="price__items">
+                        <p class="price__features">ndjnj</p>
+                        <p class="price__features">kdmdmd</p>
+                        <p class="price__features">kvmkdmc</p>
+                    </div>
+
+                    <a href="#" class="price__cta">Empieza ahora</a>
+                </div>
+
+
+                <div class="price__element price__element--best">
+                    <p class="price__name">Premium</p>
+                    <h3 class="price__price">$$$/mes</h3>
+
+                    <div class="price__items">
+                        <p class="price__features">kmmdm</p>
+                        <p class="price__features">kmdkmdm</p>
+                        <p class="price__features">mmkm</p>
+                    </div>
+
+                    <a href="#" class="price__cta">Empieza ahora</a>
+                </div>
+
+
+                <div class="price__element">
+                    <p class="price__name">Basico</p>
+                    <h3 class="price__price">$/mes</h3>
+
+                    <div class="price__items">
+                        <p class="price__features">l,dlx,n</p>
+                        <p class="price__features">xmcmmck</p>
+                        <p class="price__features">c,kckmc</p>
+                    </div>
+
+                    <a href="#" class="price__cta">Empieza ahora</a>
+                </div>
+
+
+            </div>
+        </section>
+
+        <section class="desastres">
+            <div class="desastres container">
+                <img src="./imagenes/flechaiz.svg" class="desastres__arrow" id="before">
+                <img src="./imagenes/flecha.svg" class="desastres__arrow" id="next">
+
+                <section class="desastres__body desastres__body--show" data-id="1">
+                    <div class="desastres__texts">
+                        <h2 class="subtitle">Inundaciones </h2>
+                        <p class="desastres__review">cdkmdcmkdskl czsssssssssssssssssssssssssssssssssssssssssssnnnnnnnnnnnnnnns sjjjjjjjjj</p>
+                    </div>
+
+                    <figure class="desastres__picture">
+                        <img src="./imagenes/bish.jpg" class="desastres__img">
+                    </figure>
+                </section>
+
+                <section class="desastres__body" data-id="2">
+                    <div class="desastres__texts">
+                        <h2 class="subtitle">Incendios</h2>
+                        <p class="desastres__review">DesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastre</p>
+                    </div>
+
+                    <figure class="desastres__picture">
+                        <img src="./imagenes/fire.jpg" class="desastres__img">
+                    </figure>
+                </section>
+
+                <section class="desastres__body" data-id="3">
+                    <div class="desastres__texts">
+                        <h2 class="subtitle">Tormentas y tornados</h2>
+                        <p class="desastres__review">DesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastre vDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastre</p>
+                    </div>
+
+                    <figure class="desastres__picture">
+                        <img src="./imagenes/tot.jpeg" class="desastres__img">
+                    </figure>
+                </section>
+
+                <section class="desastres__body" data-id="4">
+                    <div class="desastres__texts">
+                        <h2 class="subtitle">Huracanes</h2>
+                        <p class="desastres__review">DesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastreDesastre</p>
+                    </div>
+
+                    <figure class="desastres__picture">
+                        <img src="./imagenes/fuuuuu.avif" class="desastres__img">
+                    </figure>
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+    
+
+    <header id="home">
+        <h1>Predicción de Desastres Naturales</h1>
+        <p>Utilizando datos de Copernicus para anticipar eventos naturales.</p>
+    </header>
+
+    <section id="data">
+        <h2>Datos de Predicción</h2>
+        <div id="predictions">
+            <!-- Aquí se mostrarán las predicciones -->
+        </div>
+    </section>
+
+    <section id="map">
+        <h2>Mapa de Desastres</h2>
+        <div id="mapContainer">
+            <!-- Mapa integrado aquí -->
+        </div>
+    </section>
+
+    <section id="info">
+        <h2>¿Cómo Funciona?</h2>
+        <p>Explicación de cómo se generan las predicciones utilizando los datos de Copernicus.</p>
+    </section>
+
+    <footer class="footer">
+        <section class="footer__container container">
+            <nav class="nav nav--footer">
+                <h2 class="footer__title">Equipo RAMS</h2>
+
+                <ul class="nav__link nav__link--footer">
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Inicio</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Datos</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Mapa</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Información</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <form class="footer__form" action="https://formspree.io/f/mknkkrkj" method="POST">
+                <h2 class="footer__newsletter">Suscribete a nuestra pagina</h2>
+                <div class="footer__inputs">
+                    <input type="email" placeholder="Email:" class="footer__input" name="_replyto">
+                    <input type="submit" value="Registrate" class="footer__submit">
+                </div>
+            </form>
+        </section>
+
+        <section class="footer__copy container">
+            <div class="footer__social">
+                <a href="#" class="footer__icons"><img src="./imagenes/ig.svg" class="footer__img"></a>
+            </div>
+
+            <h3 class="footer__copyright">Derechos reservados &copy; Contacto: @gibrambrambram, @ddarcy_92</h3>
+        </section>
+    </footer>
+
+    <script src="./js/script.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/menu.js"></script>
+</body>
+</html>
