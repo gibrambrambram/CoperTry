@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Copernicus try</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./imagenes/logo rams.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/normalize.css">
+</head>
+<body>
+    <header id="home" class="hero">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <h2 class="nav__title">Prediccion de Desastres Naturales.</h2>
+            </div>
+            <ul class="nav__link nav__link--menu">
+                <li class="nav__items"><a href="#home" class="nav__links">Inicio</a></li>
+                <li class="nav__items"><a href="#data" class="nav__links">Datos</a></li>
+                <li class="nav__items"><a href="#map" class="nav__links">Mapa</a></li>
+                <li class="nav__items"><a href="#info" class="nav__links">Información</a></li>
+            </ul>
+            <img src="./imagenes/cerrar.svg" alt="error al cargar la imagen" class="nav__close">
+            <div class="nav__menu">
+                <img src="./imagenes/menu.svg" alt="error al cargar la imagen" class="nav__img">
+            </div>
+        </nav>
+        <section class="hero__container container">
+            <h1 class="hero__title">Predicción de Desastres Naturales.</h1>
+            <p class="hero__paragraph">Utilizando datos de Copernicus para anticipar eventos naturales.</p>
+            <a href="#" class="cta">Comienza ahora</a>
+        </section>
+    </header>
+    <main>
+        <section class="container about">
+            <h2 class="subtitle">¿Que encontrarás en este sitio?</h2>
+            <p> Es muy conocido que los desastres naturales han hecho que muchas familias hayan perdido sus hogares, haciendo que haya un retroceso tanto en el crecimiento de una sociedad estable como también económicamente en los lugares afectados.
+
+                Así que nosotros ofrecemos con el apoyo del código de coopernicus realizar un programa de monitoreo automatizado, donde usando como apoyo las imágenes de los satélites, predecir el desastre que se desea encontrar, tales como inundaciones, usar patrones del pasado y con apoyo de un sismómetro para poder predecir un sismo y poder detectar a tiempo un incendio en los bosques para evitar su propagación.</p>
+            <div class="about__main">
+                <article class="about__icons">
+                    <img src="./imagenes/sushi.svg" class="about__icon">
+                    <h3 class="about__title">Factor de Riesgo</h3>
+                </article>
+
+                <article class="about__icons">
+                    <img src="./imagenes/mapa.svg" class="about__icon">
+                    <h3 class="about__title">Localización del Desastre</h3>
+                </article>
+
+                <article class="about__icons">
+                    <img src="./imagenes/mapa.svg" class="about__icon">
+                    <h3 class="about__title">Desastres</h3>
+                </article>
+            </div>
+        </section>
+
+        <section class="knowledge">
+            <div class="knowledge__container container">
+                <div class="knowledge__texts">
+                    <h2 class="subtitle"> Iniciar sesión en Copernicus</h2>
+                    <p class="knowledge__paragraph">Recuerda que debes registrarte en en la pagina copernicus para poder obetener tu cuenta e iniciar sesión</p>
+                    <div class="login-container">
+                        <h2>Iniciar Sesión</h2>
+                        <form action="/login" method="POST">
+                            <div class="form-group">
+                                <label for="username">Nombre de usuario</label>
+                                <input type="text" id="username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Contraseña</label>
+                                <input type="password" id="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn">Iniciar Sesión</button>
+                        </form>
+                    </div>
+                </div>
+    
+                <figure class="knowledge__picture">
+                    <img src="./imagenes/dos.jpeg" class="knowledge">
+                </figure>
+            </div>
+        </section>
+        <section id="data">
+            <h2>Datos de Predicción</h2>
+            <div id="predictions">
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    th { background-color: #f2f2f2; }
+                    input, select, button { margin: 5px 0; width: 100%; }
+            
+                    /* Estilo para el spinner */
+                    #loadingSpinner {
+                        display: none; /* Ocultar por defecto */
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        z-index: 1000;
+                    }
+                </style>
+                <h1>Consulta de Productos OData</h1>
+        
+                <h3>Opciones de Filtro</h3>
+                
+                <label for="filterType">Tipo de Filtro:</label>
+                <select id="filterType">
+                    <option value="name">Consulta por nombre</option>
+                    <option value="collection">Consulta por colección</option>
+                    <option value="date">Consulta por fechas</option>
+                    <option value="attributes">Consulta por atributos</option>
+                    <option value="geo">Consulta por criterios geográficos</option>
+                </select>
+                
+                <label for="filter">Filtro:</label>
+                <input type="text" id="filter" placeholder="Ej: Name eq 'S1A_IW_GRDH_1SDV_20141031T161924_20141031T161949_003076_003856_634E.SAFE'">
+                
+                <div id="geoFilters" style="display: none;">
+                    <label for="geoCriteria">Criterios Geográficos:</label>
+                    <input type="text" id="geoCriteria" placeholder="Ej: SRID=4326;POINT(-0.5319577002158441 28.65487836189358)">
+                    <small>Nota: Asegúrate de usar coordenadas en EPSG 4326</small>
+                </div>
+            
+                <div id="dateFilters" style="display: none;">
+                    <h4>Fechas (Formato: YYYY-MM-DD)</h4>
+                    <label>Año Inicio:</label>
+                    <input type="number" id="startYear" placeholder="Ej: 2022" min="2000" max="2100">
+                    
+                    <label>Mes Inicio:</label>
+                    <input type="number" id="startMonth" placeholder="Ej: 05" min="1" max="12">
+                    
+                    <label>Día Inicio:</label>
+                    <input type="number" id="startDay" placeholder="Ej: 03" min="1" max="31">
+                    
+                    <label>Año Fin:</label>
+                    <input type="number" id="endYear" placeholder="Ej: 2022" min="2000" max="2100">
+                    
+                    <label>Mes Fin:</label>
+                    <input type="number" id="endMonth" placeholder="Ej: 12" min="1" max="12">
+                    
+                    <label>Día Fin:</label>
+                    <input type="number" id="endDay" placeholder="Ej: 31" min="1" max="31">
+                </div>
+                
+                <label for="orderby">Ordenar por:</label>
+                <select id="orderby">
+                    <option value="ContentDate/Start">Fecha de Contenido (Inicio)</option>
+                    <option value="ContentDate/End">Fecha de Contenido (Fin)</option>
+                    <option value="PublicationDate">Fecha de Publicación</option>
+                    <option value="ModificationDate">Fecha de Modificación</option>
+                </select>
+            
+                <label for="orderDirection">Dirección de Ordenamiento:</label>
+                <select id="orderDirection">
+                    <option value="asc">Ascendente</option>
+                    <option value="desc">Descendente</option>
+                </select>
+                
+                <label for="top">Número máximo de resultados:</label>
+                <input type="number" id="top" placeholder="Ej: 100" min="1">
+                
+                <button id="fetchButton">Cargar Productos</button>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Tipo de Contenido</th>
+                            <th>Longitud de Contenido</th>
+                            <th>Fecha de Origen</th>
+                            <th>Fecha de Publicación</th>
+                            <th>S3 Path</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody"></tbody>
+                </table>
+            
+                <!-- Rueda de carga -->
+                <div id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <style>
+                        .spinner {
+                            border: 8px solid #f3f3f3; /* Color del fondo */
+                            border-top: 8px solid #3498db; /* Color de la rueda */
+                            border-radius: 50%;
+                            width: 50px;
+                            height: 50px;
+                            animation: spin 2s linear infinite;
+                        }
+            
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+                    </style>
+                </div>
+            
+                <script>
+                    document.getElementById('fetchButton').addEventListener('click', fetchProducts);
+                    document.getElementById('filterType').addEventListener('change', updateFilter);
+            
+                    function updateFilter() {
+                        const filterType = document.getElementById('filterType').value;
+                        const dateFilters = document.getElementById('dateFilters');
+                        const geoFilters = document.getElementById('geoFilters');
+                        if (filterType === 'date') {
+                            dateFilters.style.display = 'block';
+                            geoFilters.style.display = 'none';
+                            document.getElementById('filter').style.display = 'none';
+                        } else if (filterType === 'geo') {
+                            geoFilters.style.display = 'block';
+                            dateFilters.style.display = 'none';
+                            document.getElementById('filter').style.display = 'none';
+                        } else {
+                            dateFilters.style.display = 'none';
+                            geoFilters.style.display = 'none';
+                            document.getElementById('filter').style.display = 'block';
+                        }
+                    }
+            
+                    async function fetchProducts() {
+                        const filterType = document.getElementById('filterType').value;
+                        const orderBy = document.getElementById('orderby').value;
+                        const orderDirection = document.getElementById('orderDirection').value; // Obtener dirección de ordenamiento
+                        const top = document.getElementById('top').value;
+                        let filter = '';
+            
+                        // Mostrar el spinner
+                        document.getElementById('loadingSpinner').style.display = 'block';
+            
+                        // Construir la URL de la API OData
+                        let url = "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?";
+                        let params = [];
+            
+                        if (filterType === 'date') {
+                            const startYear = document.getElementById('startYear').value;
+                            const startMonth = document.getElementById('startMonth').value;
+                            const startDay = document.getElementById('startDay').value;
+                            const endYear = document.getElementById('endYear').value;
+                            const endMonth = document.getElementById('endMonth').value;
+                            const endDay = document.getElementById('endDay').value;
+            
+                            const startDate = `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}T00:00:00.000Z`;
+                            
+            const endDate = `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}T23:59:59.999Z`;
+                            
+                            params.push(`$filter=ContentDate/Start ge ${startDate} and ContentDate/End le ${endDate}`);
+                        } else if (filterType === 'geo') {
+                            const geoCriteria = document.getElementById('geoCriteria').value.trim();
+                            params.push(`$filter=OData.CSC.Intersects(area=geography'${geoCriteria}')`);
+                        } else if (filterType === 'name' || filterType === 'collection' || filterType === 'attributes') {
+                            filter = document.getElementById('filter').value.trim();
+                            if (filter) {
+                                if (filterType === 'name') {
+                                    params.push(`$filter=Name eq '${filter}'`);
+                                } else if (filterType === 'collection') {
+                                    params.push(`$filter=Collection/Name eq '${filter}'`);
+                                } else if (filterType === 'attributes') {
+                                    params.push(`$filter=Attributes/OData.CSC.StringAttribute/any(att:att/Name eq 'yourAttributeName' and att/OData.CSC.StringAttribute/Value eq '${filter}')`);
+                                }
+                            }
+                        }
+            
+                        if (orderBy) {
+                            params.push(`$orderby=${encodeURIComponent(orderBy)} ${orderDirection}`); // Incluir dirección de orden
+                        }
+                        if (top) {
+                            params.push(`$top=${top}`);
+            
+                        }
+            
+                        // Unir los parámetros en la URL
+                        url += params.join('&');
+            
+                        try {
+                            const response = await fetch(url);
+                            
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud: ' + response.statusText);
+                            }
+            
+                            const json = await response.json();
+                            console.log("Datos obtenidos:", json); // Muestra los datos en la consola
+                            
+                            // Asegúrate de que el objeto 'value' contenga datos
+                            if (json.value && json.value.length > 0) {
+                                displayProducts(json.value);
+                            } else {
+                                alert('No se encontraron productos.');
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            alert('Error al cargar los datos: ' + error.message);
+                        } finally {
+                            // Ocultar el spinner al finalizar
+                            document.getElementById('loadingSpinner').style.display = 'none';
+                        }
+                    }
+            
+                    function displayProducts(products) {
+                        const resultsBody = document.getElementById('resultsBody');
+                        resultsBody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+            
+                        products.forEach(product => {
+                            const row = document.createElement('tr');
+            
+                            const id = product.Id || 'N/A';
+                            const name = product.Name || 'N/A';
+                            const contentType = product.ContentType || 'N/A';
+                            const contentLength = product.ContentLength || 'N/A';
+                            const originDate = product.OriginDate || 'N/A';
+                            const publicationDate = product.PublicationDate || 'N/A';
+                            const s3Path = product.S3Path || 'N/A';
+            
+                            row.innerHTML = `
+                                <td>${id}</td>
+                                <td>${name}</td>
+                                <td>${contentType}</td>
+                                <td>${contentLength}</td>
+                                <td>${originDate}</td>
+                                <td>${publicationDate}</td>
+                                <td>${s3Path}</td>
+                            `;
+            
+                            resultsBody.appendChild(row);
+                        });
+                    }
+                </script>
+            </div>
+        </section>
+        <header id="home">
+            <h1>Predicción de Desastres Naturales</h1>
+            <p>Utilizando datos de Copernicus para anticipar eventos naturales.</p>
+        </header>
+        <div class="menu">
+            <h1>Consulta de Desastres Naturales</h1>
+    
+            <div class="secccion">
+                <h3>Seleccione el desastre natural que desea conocer:</h3>
+                <select id="disasterSelect" onchange="mostrarInfo()">
+                    <option value="">--Seleccione una opción--</option>
+                    <option value="inundaciones">Inundaciones</option>
+                    <option value="incendios">Incendios</option>
+                </select>
+            </div>
+    
+            <!-- Sección de información sobre Inundaciones -->
+            <div id="inundacionesInfo" class="info-section">
+                <h4>Inundaciones</h4>
+                <section id="map">
+                    <h1>Mapa de Desastres</h1>
+                    <h2>Buscar por coordenadas</h2>
+                    <div id="mapContainer">
+                        <form id="coordinateForm">
+                            <label for="c1">Coordenada 1:</label>
+                            <input type="text" id="c1" name="c1" required><br><br>
+                    
+                            <label for="c2">Coordenada 2:</label>
+                            <input type="text" id="c2" name="c2" required><br><br>
+                    
+                            <label for="c3">Coordenada 3:</label>
+                            <input type="text" id="c3" name="c3" required><br><br>
+                    
+                            <label for="c4">Coordenada 4:</label>
+                            <input type="text" id="c4" name="c4" required><br><br>
+                    
+                            <button type="button" id="sendDataButton">Enviar Coordenadas</button>
+                     
+                            <div id="result">
+                                <img id="satImage" src="" alt="Imagen no disponible" />
+                            </div>
+                        </form>
+                    
+                        <script>
+                            document.getElementById('sendDataButton').addEventListener('click', async function() {
+                                const coor1 = document.getElementById('c1').value;
+                                const coor2 = document.getElementById('c2').value;
+                                const coor3 = document.getElementById('c3').value;
+                                const coor4 = document.getElementById('c4').value;
+                                
+                                const opc = 1;
+                    
+                                // Enviar las coordenadas al servidor
+                                const response = await fetch('http://127.0.0.1:5000/receive-data', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        coordenadas: [coor1, coor2, coor3, coor4],
+                                        opc: opc 
+                                    })
+                                });
+                    
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    const imgBase64 = data.image;
+                                    document.getElementById('satImage').src = `data:image/png;base64,${imgBase64}`;
+                                } else {
+                                    document.getElementById('result').innerText = 'Error al recibir la imagen';
+                                }
+                            });
+                        </script>
+                    </div>
+                    <h2>Buscar por sección</h2>
+                    <div>
+                      <form>
+                        <button type="submit">Sección Ensenada,Baja California,Mexico</button>
+                      </form>
+                      <script>
+                        function enviarDatos(){
+            
+                        }
+                      </script>
+            
+                    </div>
+                </section>
+            </div>
+    
+            <!-- Sección de información sobre Incendios -->
+            <div id="incendiosInfo" class="info-section">
+                <h4>Incendios</h4>
+                <section id="map">
+                    <h1>Mapa de Desastres</h1>
+                    <h2>Buscar por coordenadas</h2>
+                    <div id="mapContainer">
+                        <form id="coordinateForm">
+                            <label for="c1">Coordenada 1:</label>
+                            <input type="text" id="c1" name="c1" required><br><br>
+                    
+                            <label for="c2">Coordenada 2:</label>
+                            <input type="text" id="c2" name="c2" required><br><br>
+                    
+                            <label for="c3">Coordenada 3:</label>
+                            <input type="text" id="c3" name="c3" required><br><br>
+                    
+                            <label for="c4">Coordenada 4:</label>
+                            <input type="text" id="c4" name="c4" required><br><br>
+                    
+                            <button type="button" id="sendDataButton">Enviar Coordenadas</button>
+                     
+                            <div id="result">
+                                <img id="satImage" src="" alt="Imagen no disponible" />
+                            </div>
+                        </form>
+                    
+                        <script>
+                            document.getElementById('sendDataButton').addEventListener('click', async function() {
+                                const coor1 = document.getElementById('c1').value;
+                                const coor2 = document.getElementById('c2').value;
+                                const coor3 = document.getElementById('c3').value;
+                                const coor4 = document.getElementById('c4').value;
+                    
+                                // Enviar las coordenadas al servidor
+                                const response = await fetch('http://127.0.0.1:5000/receive-data', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        coordenadas: [coor1, coor2, coor3, coor4]
+                                    })
+                                });
+                    
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    const imgBase64 = data.image;
+                                    document.getElementById('satImage').src = `data:image/png;base64,${imgBase64}`;
+                                } else {
+                                    document.getElementById('result').innerText = 'Error al recibir la imagen';
+                                }
+                            });
+                        </script>
+                    </div>
+                    <h2>Buscar por sección</h2>
+                    <div>
+                      <form>
+                        <button type="submit">Sección Ensenada,Baja California,Mexico</button>
+                      </form>
+                      <script>
+                        function enviarDatos(){
+            
+                        }
+                      </script>
+            
+                    </div>
+                </section>
+            </div>
+        </div>
+    
+        <script>
+            // Función para mostrar la información dependiendo de la selección
+            function mostrarInfo() {
+                const selectedValue = document.getElementById('disasterSelect').value;
+    
+                // Ocultar ambas secciones al cambiar la selección
+                document.getElementById('inundacionesInfo').style.display = 'none';
+                document.getElementById('incendiosInfo').style.display = 'none';
+    
+                // Mostrar la sección correspondiente al valor seleccionado solo si no está vacío
+                if (selectedValue === 'inundaciones') {
+                    document.getElementById('inundacionesInfo').style.display = 'block';
+                } else if (selectedValue === 'incendios') {
+                    document.getElementById('incendiosInfo').style.display = 'block';
+                }
+            }
+    
+            // Al cargar la página, se aseguran de que ninguna sección esté visible
+            window.onload = function() {
+                document.getElementById('inundacionesInfo').style.display = 'none';
+                document.getElementById('incendiosInfo').style.display = 'none';
+            };
+        </script>     
+
+    </main>
+
+    <section id="info">
+        <h2>¿Cómo Funciona?</h2>
+        <p>Explicación de cómo se generan las predicciones utilizando los datos de Copernicus.</p>
+    </section>
+
+    <footer class="footer">
+        <section class="footer__container container">
+            <nav class="nav nav--footer">
+                <h2 class="footer__title">Equipo RAMS</h2>
+
+                <ul class="nav__link nav__link--footer">
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Inicio</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Datos</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Mapa</a>
+                    </li>
+                    <li class="nav__items">
+                        <a href="#" class="nav__links">Información</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <form class="footer__form" action="https://formspree.io/f/mknkkrkj" method="POST">
+                <h2 class="footer__newsletter">Suscribete a nuestra pagina</h2>
+                <div class="footer__inputs">
+                    <input type="email" placeholder="Email:" class="footer__input" name="_replyto">
+                    <input type="submit" value="Registrate" class="footer__submit">
+                </div>
+            </form>
+        </section>
+
+        <section class="footer__copy container">
+            <div class="footer__social">
+                <a href="#" class="footer__icons"><img src="./imagenes/ig.svg" class="footer__img"></a>
+            </div>
+
+            <h3 class="footer__copyright">Derechos reservados &copy; Contacto: @gibrambrambram, @ddarcy_92</h3>
+        </section>
+    </footer>
+
+    <script src="./js/script.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/menu.js"></script>
+</body>
+</html>
